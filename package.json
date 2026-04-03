@@ -1,0 +1,36 @@
+{
+  "name": "homebridge-whirlpool",
+  "version": "1.0.0",
+  "description": "Homebridge plugin for Whirlpool/Maytag washer and dryer via the Whirlpool cloud API",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "watch": "tsc -w"
+  },
+  "keywords": [
+    "homebridge-plugin",
+    "whirlpool",
+    "maytag",
+    "washer",
+    "dryer",
+    "laundry"
+  ],
+  "author": "Josh",
+  "license": "ISC",
+  "engines": {
+    "homebridge": ">=1.6.0",
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "homebridge": "^1.8.0",
+    "typescript": "^5.3.0"
+  },
+  "homepage": "https://github.com/",
+  "repository": {
+    "type": "git",
+    "url": ""
+  }
+}

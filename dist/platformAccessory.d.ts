@@ -1,6 +1,6 @@
 import type { PlatformAccessory, CharacteristicValue, Logger } from 'homebridge';
 import type { WhirlpoolPlatform } from './index';
-import type { WhirlpoolApi, ApplianceInfo } from './whirlpoolApi';
+import type { WhirlpoolApi, ApplianceInfo, ApplianceStatus } from './whirlpoolApi';
 export declare class WhirlpoolAccessory {
     private readonly platform;
     private readonly accessory;
@@ -12,5 +12,5 @@ export declare class WhirlpoolAccessory {
     constructor(platform: WhirlpoolPlatform, accessory: PlatformAccessory, api: WhirlpoolApi, appliance: ApplianceInfo, log: Logger);
     getOn(): Promise<CharacteristicValue>;
     setOn(_value: CharacteristicValue): void;
-    updateStatus(isRunning: boolean): void;
+    updateStatus(status: ApplianceStatus): void;
 }

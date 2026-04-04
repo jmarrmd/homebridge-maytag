@@ -70,10 +70,12 @@ class WhirlpoolAccessory {
             this.outletService.updateCharacteristic(this.platform.Characteristic.On, this.isRunning);
         }, 500);
     }
-    updateStatus(isRunning) {
-        this.isRunning = isRunning;
-        this.outletService.updateCharacteristic(this.platform.Characteristic.On, isRunning);
-        this.outletService.updateCharacteristic(this.platform.Characteristic.OutletInUse, isRunning);
+    updateStatus(status) {
+        const stateName = MACHINE_STATE_NAMES[status.machineState] || `Unknown (${status.machineState})`;
+        this.log.debug(`[${this.appliance.name}] Poll: State=${stateName}, Running=${status.isRunning}, Time remaining=${status.timeRemaining} min`);
+        this.isRunning = status.isRunning;
+        this.outletService.updateCharacteristic(this.platform.Characteristic.On, status.isRunning);
+        this.outletService.updateCharacteristic(this.platform.Characteristic.OutletInUse, status.isRunning);
     }
 }
 exports.WhirlpoolAccessory = WhirlpoolAccessory;

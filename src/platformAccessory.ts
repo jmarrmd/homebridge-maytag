@@ -5,7 +5,7 @@ import type {
   Logger,
 } from 'homebridge';
 import type { WhirlpoolPlatform } from './index';
-import type { WhirlpoolApi, ApplianceInfo } from './whirlpoolApi';
+import type { WhirlpoolApi, ApplianceInfo, ApplianceStatus } from './whirlpoolApi';
 
 const MACHINE_STATE_NAMES: Record<string, string> = {
   '0': 'Standby',
@@ -90,9 +90,11 @@ export class WhirlpoolAccessory {
     }, 500);
   }
 
-  updateStatus(isRunning: boolean): void {
-    this.isRunning = isRunning;
-    this.outletService.updateCharacteristic(this.platform.Characteristic.On, isRunning);
-    this.outletService.updateCharacteristic(this.platform.Characteristic.OutletInUse, isRunning);
+  updateStatus(status: ApplianceStatus): void {
+    const stateName = MACHINE_STATE_NAMES[status.machineState] || `Unknown (${status.machineState})`;
+    this.log.debug(`[${this.appliance.name}] Poll: State=${stateName}, Running=${status.isRunning}, Time remaining=${status.timeRemaining} min`);
+    this.isRunning = status.isRunning;
+    this.outletService.updateCharacteristic(this.platform.Characteristic.On, status.isRunning);
+    this.outletService.updateCharacteristic(this.platform.Characteristic.OutletInUse, status.isRunning);
   }
 }

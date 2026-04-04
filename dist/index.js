@@ -94,7 +94,7 @@ class WhirlpoolPlatform {
         for (const [said, managed] of this.managedAccessories) {
             try {
                 const status = await this.api.getApplianceStatus(said);
-                managed.updateStatus(status.isRunning);
+                managed.updateStatus(status);
             }
             catch (err) {
                 this.log.debug(`Failed to poll ${said}: ${err}`);

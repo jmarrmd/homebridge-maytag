@@ -186,6 +186,19 @@ class WhirlpoolApi {
     async getApplianceStatus(said) {
         const data = await this.apiGet(`/api/v1/appliance/${said}`);
         const attrs = data;
+        // Log all attributes that look like machine/cycle state for debugging
+        const stateKeys = Object.keys(attrs).filter(k => /state|status|cycle|machine|running/i.test(k));
+        if (stateKeys.length > 0) {
+            const stateSnapshot = {};
+            for (const k of stateKeys) {
+                const v = attrs[k];
+                stateSnapshot[k] = typeof v === 'object' && v !== null && 'value' in v ? v.value : v;
+            }
+            this.log.debug(`[${said}] State-related attributes: ${JSON.stringify(stateSnapshot)}`);
+        }
+        else {
+            this.log.debug(`[${said}] No state-related attributes found. All keys: ${Object.keys(attrs).join(', ')}`);
+        }
         const getMachineState = () => {
             // Try common attribute names
             for (const key of [
@@ -196,13 +209,16 @@ class WhirlpoolApi {
                 const val = attrs[key];
                 if (val !== undefined) {
                     if (typeof val === 'object' && val !== null && 'value' in val) {
+                        this.log.debug(`[${said}] Matched machine state key: ${key} = ${val.value}`);
                         return val.value ?? '0';
                     }
                     if (typeof val === 'string') {
+                        this.log.debug(`[${said}] Matched machine state key: ${key} = ${val}`);
                         return val;
                     }
                 }
             }
+            this.log.warn(`[${said}] No known machine state attribute found, defaulting to 0 (Standby)`);
             return '0';
         };
         const getAttrValue = (keys) => {

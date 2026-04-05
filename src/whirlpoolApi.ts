@@ -228,7 +228,13 @@ export class WhirlpoolApi {
 
   async getApplianceStatus(said: string): Promise<ApplianceStatus> {
     const data = await this.apiGet(`/api/v1/appliance/${said}`) as Record<string, unknown>;
-    const attrs = data as Record<string, { value?: string } | string>;
+
+    // The API nests appliance properties inside an "attributes" object
+    const raw = (data.attributes && typeof data.attributes === 'object')
+      ? data.attributes as Record<string, { value?: string } | string>
+      : data as Record<string, { value?: string } | string>;
+
+    const attrs = raw;
 
     // Log all attributes that look like machine/cycle state for debugging
     const stateKeys = Object.keys(attrs).filter(k =>

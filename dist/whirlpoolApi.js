@@ -185,7 +185,11 @@ class WhirlpoolApi {
     }
     async getApplianceStatus(said) {
         const data = await this.apiGet(`/api/v1/appliance/${said}`);
-        const attrs = data;
+        // The API nests appliance properties inside an "attributes" object
+        const raw = (data.attributes && typeof data.attributes === 'object')
+            ? data.attributes
+            : data;
+        const attrs = raw;
         // Log all attributes that look like machine/cycle state for debugging
         const stateKeys = Object.keys(attrs).filter(k => /state|status|cycle|machine|running/i.test(k));
         if (stateKeys.length > 0) {

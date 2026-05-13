@@ -4,6 +4,7 @@ import type {
   CharacteristicValue,
   Logger,
 } from 'homebridge';
+import { HapStatusError, HAPStatus } from '@homebridge/hap-nodejs';
 import type { WhirlpoolPlatform } from './index';
 import type { WhirlpoolApi, ApplianceInfo, ApplianceStatus } from './whirlpoolApi';
 
@@ -55,39 +56,15 @@ export class WhirlpoolAccessory {
       this.accessory.addService(this.platform.Service.Outlet, appliance.name);
 
     this.outletService.getCharacteristic(Characteristic.On)
-      .onGet(this.getOn.bind(this))
       .onSet(this.setOn.bind(this));
-
-    // OutletInUse also reflects running state
-    this.outletService.getCharacteristic(Characteristic.OutletInUse)
-      .onGet(this.getOn.bind(this));
 
     this.outletService.setCharacteristic(Characteristic.Name, appliance.name);
   }
 
-  async getOn(): Promise<CharacteristicValue> {
-    try {
-      const status = await this.api.getApplianceStatus(this.appliance.said);
-      this.isRunning = status.isRunning;
-      const stateName = MACHINE_STATE_NAMES[status.machineState] || `Unknown (${status.machineState})`;
-      this.log.debug(`[${this.appliance.name}] State: ${stateName}, Running: ${status.isRunning}, Time remaining: ${status.timeRemaining} min`);
-      return status.isRunning;
-    } catch (err) {
-      this.log.error(`[${this.appliance.name}] Failed to get status: ${err}`);
-      return this.isRunning;
-    }
-  }
-
   setOn(_value: CharacteristicValue): void {
-    // We don't actually control the appliance - just read status
+    // Appliance state is read-only — reject control attempts immediately
     this.log.info(`[${this.appliance.name}] Cannot control appliance remotely via HomeKit. State is read-only.`);
-    // Revert to actual state after a short delay
-    setTimeout(() => {
-      this.outletService.updateCharacteristic(
-        this.platform.Characteristic.On,
-        this.isRunning,
-      );
-    }, 500);
+    throw new HapStatusError(HAPStatus.READ_ONLY_CHARACTERISTIC);
   }
 
   updateStatus(status: ApplianceStatus): void {

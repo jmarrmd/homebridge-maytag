@@ -5,23 +5,21 @@
   "headerDisplay": "Connect your Whirlpool, Maytag, or KitchenAid washer and dryer to HomeKit. Appliances appear as outlets — On means running, Off means idle.",
   "schema": {
     "type": "object",
+    "required": ["name", "username", "password"],
     "properties": {
       "name": {
         "title": "Platform Name",
         "type": "string",
-        "default": "Whirlpool Cloud",
-        "required": true
+        "default": "Whirlpool Cloud"
       },
       "username": {
         "title": "Email",
         "type": "string",
-        "required": true,
         "description": "Your Whirlpool / Maytag / KitchenAid app login email"
       },
       "password": {
         "title": "Password",
         "type": "string",
-        "required": true,
         "description": "Your app login password"
       },
       "brand": {

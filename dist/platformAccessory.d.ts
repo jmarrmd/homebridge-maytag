@@ -10,7 +10,6 @@ export declare class WhirlpoolAccessory {
     private outletService;
     private isRunning;
     constructor(platform: WhirlpoolPlatform, accessory: PlatformAccessory, api: WhirlpoolApi, appliance: ApplianceInfo, log: Logger);
-    getOn(): Promise<CharacteristicValue>;
     setOn(_value: CharacteristicValue): void;
     updateStatus(status: ApplianceStatus): void;
 }

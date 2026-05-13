@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WhirlpoolAccessory = void 0;
-const hap_nodejs_1 = require("@homebridge/hap-nodejs");
+const HAP_STATUS_READ_ONLY_CHARACTERISTIC = -70404;
 const MACHINE_STATE_NAMES = {
     '0': 'Standby',
     '1': 'Setting',
@@ -49,7 +49,7 @@ class WhirlpoolAccessory {
     setOn(_value) {
         // Appliance state is read-only — reject control attempts immediately
         this.log.info(`[${this.appliance.name}] Cannot control appliance remotely via HomeKit. State is read-only.`);
-        throw new hap_nodejs_1.HapStatusError(-70404 /* HAPStatus.READ_ONLY_CHARACTERISTIC */);
+        throw HAP_STATUS_READ_ONLY_CHARACTERISTIC;
     }
     updateStatus(status) {
         const stateName = MACHINE_STATE_NAMES[status.machineState] || `Unknown (${status.machineState})`;

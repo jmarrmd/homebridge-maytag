@@ -4,9 +4,10 @@ import type {
   CharacteristicValue,
   Logger,
 } from 'homebridge';
-import { HapStatusError, HAPStatus } from '@homebridge/hap-nodejs';
 import type { WhirlpoolPlatform } from './index';
 import type { WhirlpoolApi, ApplianceInfo, ApplianceStatus } from './whirlpoolApi';
+
+const HAP_STATUS_READ_ONLY_CHARACTERISTIC = -70404;
 
 const MACHINE_STATE_NAMES: Record<string, string> = {
   '0': 'Standby',
@@ -64,7 +65,7 @@ export class WhirlpoolAccessory {
   setOn(_value: CharacteristicValue): void {
     // Appliance state is read-only — reject control attempts immediately
     this.log.info(`[${this.appliance.name}] Cannot control appliance remotely via HomeKit. State is read-only.`);
-    throw new HapStatusError(HAPStatus.READ_ONLY_CHARACTERISTIC);
+    throw HAP_STATUS_READ_ONLY_CHARACTERISTIC;
   }
 
   updateStatus(status: ApplianceStatus): void {

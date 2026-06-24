@@ -1,12 +1,12 @@
 {
   "name": "homebridge-whirlpool",
-  "version": "1.0.3",
+  "version": "1.0.2",
   "lockfileVersion": 3,
   "requires": true,
   "packages": {
     "": {
       "name": "homebridge-whirlpool",
-      "version": "1.0.3",
+      "version": "1.0.2",
       "license": "ISC",
       "devDependencies": {
         "@types/node": "^20.0.0",
@@ -14,8 +14,8 @@
         "typescript": "^5.3.0"
       },
       "engines": {
-        "homebridge": "^2.0.0",
-        "node": "^22 || ^24"
+        "homebridge": ">=2.0.0",
+        "node": ">=18.15.0"
       }
     },
     "node_modules/@homebridge/ciao": {
@@ -201,9 +201,9 @@
       }
     },
     "node_modules/@types/node": {
-      "version": "20.19.41",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.41.tgz",
-      "integrity": "sha512-ECymXOukMnOoVkC2bb1Vc/w/836DXncOg5m8Xj1RH7xSHZJWNYY6Zh7EH477vcnD5egKNNfy2RpNOmuChhFPgQ==",
+      "version": "20.19.39",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.19.39.tgz",
+      "integrity": "sha512-orrrD74MBUyK8jOAD/r0+lfa1I2MO6I+vAkmAWzMYbCcgrN4lCrmK52gRFQq/JRxfYPfonkr4b0jcY7Olqdqbw==",
       "dev": true,
       "license": "MIT",
       "dependencies": {

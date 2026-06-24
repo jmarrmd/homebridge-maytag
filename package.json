@@ -1,6 +1,6 @@
 {
   "name": "homebridge-whirlpool",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Homebridge plugin for Whirlpool/Maytag washer and dryer via the Whirlpool cloud API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,8 +21,8 @@
     "dryer",
     "laundry"
   ],
-  "author": "Josh",
-  "license": "ISC",
+  "author": "Josh Marr",
+  "license": "MIT",
   "engines": {
     "homebridge": "^2.0.0",
     "node": "^22 || ^24"
